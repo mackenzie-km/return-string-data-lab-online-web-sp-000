@@ -12,16 +12,25 @@
   $(function () {
     $(".js-more").on('click', function() {
       // get the id from the data attribute
-      let id = $(this).data("id");
+      var id = $(this).data("id")
 
        $.get("/products/" + id + "/description", function(data) {
          $("#product-" + id + " .description").text(data)
-       });
+       })
 
-       $.get("/products/" + id + "/inventory", function(data) {
-         $("#product-" + id + " .description").append(data)
-       });
+      $.get("/products/" + id + "/inventory", function(data) {
 
-    });
-  });
+        var result = function (data) {
+          if (data == true) {
+            return "Avaliable"
+          } else {
+            return "Sold Out"
+          }
+        }
+
+         $("#product-" + id + " .description").append(result)
+       });
+     });
+   });
+
 </script>
