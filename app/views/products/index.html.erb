@@ -19,16 +19,14 @@
        })
 
       $.get("/products/" + id + "/inventory", function(data) {
-
-        var result = function (data) {
-          if (data == true) {
-            return "Avaliable"
+        console.log(data)
+          if (data === true) {
+            $("#product-" + id + " .description").append("Avaliable")
           } else {
-            return "Sold Out"
+            $("#product-" + id + " .description").append("Sold Out")
           }
-        }
 
-         $("#product-" + id + " .description").append(result)
+
        });
      });
    });
