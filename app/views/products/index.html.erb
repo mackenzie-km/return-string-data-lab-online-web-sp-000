@@ -3,6 +3,7 @@
 <% @products.each do |p| %>
   <div id="product-<%= p.id %>">
     <div class="name"><b><%= p.name + ":" %></b></div>
+    <div class="inventory"><b><%= p.inventory %></b></div>
     <div class="description"><%= truncate p.description %></div>
     <button class="js-more" name="More Info" title="More Info" data-id="<%= p.id %>">More Info</button>
   </div>
@@ -13,22 +14,9 @@
     $(".js-more").on('click', function() {
       // get the id from the data attribute
       var id = $(this).data("id")
-
-       $.get("/products/" + id + "/description", function(data) {
-         $("#product-" + id + " .description").text(data)
-       })
-
-      $.get("/products/" + id + "/inventory", function(data) {
-        console.log(data)
-          if (data === true) {
-            $("#product-" + id + " .description").append("Avaliable")
-          } else {
-            $("#product-" + id + " .description").append("Sold Out")
-          }
-
-
-       });
-     });
-   });
+      $.get("/products/" + id + "/description", function(data, status, xhr) { $("#product-" + id + " .description").text(xhr.responseText) });
+      $.get("/products/" + id + "/inventory", function(data, status, xhr) { $("#product-" + id + " .description").append((xhr.responseText == "true" ) ? "Available" : "Sold Out")});
+    });
+  });
 
 </script>
